@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Plugin tip - Jquery Hashes</title>
+</head>
+<style type="text/css">
+
+</style>
+<body>
+<div id="element">Something out there make me strong</div>
+<div id="element2">Something out there make me fail</div>
+<div id="element3">Something out there make me inspire</div>
+<div id="element4">Something out there make me flying</div>
+<div id="element5">Something out there make me surprise </div>
+<script type="text/javascript" src="js/jquery/jquery_2.3.1.js"></script>
+<script type="text/javascript">
+(function($){
+	function hex(num){
+		var hexStr= num.toString(16);
+		return hexStr.length === 1 ? "0" + hexStr : hexStr;
+	}
+	//ex-1 using option hashes
+	$.fn.color = function(options){
+		var color ="#" + hex(options.red) + hex(options.green) + hex(options.blue);
+		return this.each(function(){
+			$(this).css("color",color);
+		});
+	};
+	$("#element").color({
+		red:255,
+		green:255,
+		blue:0
+	});
+
+	//ex-2 using classic , transmitting paramenters.
+	$.fn.changeColor = function(red,green,blue){
+		var color= "#" + hex(red) + hex(green) +hex(blue);
+		return this.each(function(){
+			$(this).css("color",color);
+		});
+	};
+	$('#element2').changeColor(255,0,0);
+
+	//ex-3 using option hashes with dedaulf 
+	$.fn.origionColor = function(options){
+		var color= "#" +hex(options.red || 0) +hex(options.green || 0) + hex(options.blue || 0);
+		//console.log(this);
+		return this.each(function(){
+			$(this).css("color",color);
+		});
+	};
+	$('#element3').origionColor({});
+
+	//ex-4 using default hashes
+	$.fn.defaultColor= function(options){
+		options =$.extend({
+			red:128,
+			green:128,
+			blue:128
+		},options);
+		var color = "#" + hex(options.red)+ hex(options.green) +hex(options.blue);
+		return this.each(function(){
+			$(this).css("color",color);
+		});
+	};
+	$('#element4').defaultColor({});
+
+	//ex-5 using exposing defaults
+	$.fn.exposingColor = function(options){
+		options = $.extend({},$.fn.exposingColor.defaults,options);
+		var color = "#" + hex(options.red)+ hex(options.green) +hex(options.blue);
+		return this.each(function(){
+			//console.log(this);
+			$(this).css("color",color);
+		});
+	};
+	$.fn.exposingColor.defaults={
+		red:128,
+		green:128,
+		blue:128,
+	};
+	$.fn.exposingColor.defaults.blue=0;
+	$('#element5').exposingColor({
+		blue:255
+	});
+}( jQuery ));
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Prototype</title>
+</head>
+<style type="text/css">
+	p{
+		display: none;
+	}
+</style>
+<body>
+<input id="btn-1" type="button" value="a">
+<input id="btn-2" type="button" value="b">
+<p>Welcome to my life</p>
+<script type="text/javascript" src="js/jquery/jquery_2.3.1.js"></script>
+<script type="text/javascript">
+(function($){
+	jQuery.fn.extend({
+		show_key : function(){
+				console.log(this);
+			return this.toggle("slow",function(){
+		           $(this).css({color:'red'});
+					$(this).animate({
+					fontSize:'50px'
+				},800,function(){
+					$(this).toggle("slow");
+				});
+			});
+		}
+	});
+	/*
+	$.fn.show_prototype: function(){
+		
+	}*/
+	var $btn=$('#btn-1');
+	$btn.click(function(){
+		$('p').show_key();
+	});
+	var $btn2=$('#btn-2');
+	$btn2.click(function(){
+		$btn2.show_prototype();
+	});
+}( jQuery ));
+</script>
+</body>
+</html>

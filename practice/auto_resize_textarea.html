@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Practice with jQuery</title>
+    <!--- Required jQuery --->
+    <script type="text/javascript" src="js/jquery/jquery_2.3.1.js"></script>
+    <script type="text/javascript" src="js/jquery-ui/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/process.js"></script>
+
+    <!---- Required css jquery-ui ---->
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+
+    <script type="text/javascript">
+        (function (jQuery) {
+
+            // jQuery plugin definition
+            jQuery.fn.TextAreaExpander = function (minHeight, maxHeight) {
+
+                var hCheck = false;
+
+                // resize a textarea
+                function ResizeTextarea(e) {
+
+                    // event or initialize element?
+                    e = e.target || e;
+
+                    // find content length and box width
+                    var vlen = e.value.length, ewidth = e.offsetWidth;
+                    if (vlen != e.valLength || ewidth != e.boxWidth) {
+
+                        if (hCheck && (vlen < e.valLength || ewidth != e.boxWidth)) e.style.height = "0px";
+                        var h = Math.max(e.expandMin, Math.min(e.scrollHeight, e.expandMax));
+
+                        e.style.overflow = (e.scrollHeight > h ? "auto" : "hidden");
+                        e.style.height = h + "px";
+
+                        e.valLength = vlen;
+                        e.boxWidth = ewidth;
+                    }
+
+                    return true;
+                };
+
+                // initialize
+                this.each(function () {
+
+                    // is a textarea?
+                    if (this.nodeName.toLowerCase() != "textarea") return;
+
+                    // set height restrictions
+                    var p = this.className.match(/expand(\d+)\-*(\d+)*/i);
+                    this.expandMin = minHeight || (p ? parseInt('0' + p[1], 10) : 0);
+                    this.expandMax = maxHeight || (p ? parseInt('0' + p[2], 10) : 99999);
+
+                    // initial resize
+                    ResizeTextarea(this);
+
+                    // zero vertical padding and add events
+                    if (!this.Initialized) {
+                        this.Initialized = true;
+                        jQuery(this).css("padding-top", 0).css("padding-bottom", 0);
+                        jQuery(this).bind("keyup", ResizeTextarea).bind("focus", ResizeTextarea);
+                    }
+                });
+
+                return this;
+            };
+
+        })(jQuery);
+
+        // initialize all expanding textareas
+        jQuery(document).ready(function () {
+            jQuery("textarea").TextAreaExpander();
+        });
+    </script>
+
+    <style type="text/css">
+        textarea {
+            clear: both;
+            display: block;
+            font-family: sans-serif;
+            font-size: 1em;
+            width: 20em;
+            padding: 2px 4px;
+            margin: 6px auto;
+            border: 1px solid #889;
+        }
+    </style>
+</head>
+<body>
+<textarea name="textarea1" rows="3" cols="60" class="expand">Edit this text to see the textarea expand and
+    contract.</textarea>
+</body>
+</html>
