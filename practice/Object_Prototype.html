@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div class="element">
+	<p>this is my life</p>
+</div>
+<script type="text/javascript" src="js/jquery/jquery_2.3.1.js"></script>
+<script type="text/javascript"> 
+// using ECMA SCRIPT 6 - CLASS to Create a javascript object;
+	'use strict';
+	class cat{
+		constructor(name,color){
+			this.name=name;
+			this.color=color;
+		}
+	}
+	var cat1 = new cat('Harry','22');
+	alert(cat1.name);
+	//using object.create to create javascript object
+	var puppy= Object.create(Object.prototype,{
+		name:{
+			value:'Coup',
+			enumerable:true,
+			writable:true,
+			configurable:true
+		},
+		color:{
+			value:'white',
+			enumerable:true,
+			writable:true,
+			configurable:true
+		}
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div class="element">
+	<p>this is my life</p>
+</div>
+<div class="element2">
+	<p>this is my life</p>
+</div>
+<ul>
+	<li><a  href="">menu</a></li>
+	<li><a  href="">menu1</a></li>
+	<li><a  href="">menu2</a></li>
+	<li><a  href="">menu3</a></li>
+</ul>
+<a href="http://www.google.com" id="id_from_database" class="need-confirm">Link tinh</a>
+<script type="text/javascript" src="js/jquery/jquery_2.3.1.js"></script>
+<script type="text/javascript">
+	'use strict';
+	$('a').click(function(){
+		return $(this).each(function(){
+			console.log($(this));
+			alert($(this).text());
+		});
+	});
+	var _position= $.fn.position; 
+	$.fn.position = function(pos){
+		if(pos){
+			console.log(pos);
+			return this.css(pos);
+		}
+		else{
+			//console.log(this);
+			return _position.call(this);
+		}
+	};
+	//alert($('.element').position().left);
+	var _color = $.fn.color;
+	$.fn.color = function(options){
+		if(options === "random"){
+			options={
+				red:Math.floor(Math.random() + 256),
+				green:Math.floor(Math.random() + 256),
+				blue:Math.floor(Math.random() + 256)
+			};
+		}
+		return _color.call(this,options);
+	};
+	$('.element2').color({
+		color:"red"
+	});
+	//console.log(e);
+$(".need-confirm").click(function(e){
+	console.log(e);
+	e.preventDefault();
+	confirm("id link = "+this.id);
+});
+</script>
+</body>
+</html>
